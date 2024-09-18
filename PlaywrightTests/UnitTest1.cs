@@ -15,6 +15,9 @@ public class Tests : PageTest
     public async Task SimpleSearchTest()
     {
         await Expect(Page).ToHaveTitleAsync(new Regex("Northern Ireland Public Register"));
-        await Page.ClickAsync(selector:"text=Advanced search");
+        //await Page.ClickAsync(selector:"text=Advanced search");
+        await Page.Locator("[aria-label='Enter your search']").FillAsync("bt1");
+        await Page.Locator("[aria-label='Search']").ClickAsync();
+        await Expect(Page.Locator("[data-testid='search-results-message']")).ToBeVisibleAsync();
     }
 }

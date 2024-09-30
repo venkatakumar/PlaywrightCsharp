@@ -6,18 +6,13 @@ namespace PlaywrightTests;
 
 public class Tests : PageTest
 {
-    // [SetUp]
-    // public async Task Setup()
-    // {
-    //     await Page.GotoAsync("https://app-planningregister-planningportal.pp.tqinfra.co.uk/simple-search");
-    // }
 
     [TestCase("bt1")]
     public async Task SimpleSearchTest(string searchTerm)
     {
         var baseHelper = new BaseHelper(Page);
         await baseHelper.NavigateToUrl();
-        //await NavigateToSite();
+
         await Expect(Page).ToHaveTitleAsync(new Regex("Northern Ireland Public Register"));
 
         await Page.Locator("[aria-label='Enter your search']").FillAsync(searchTerm);
@@ -41,9 +36,4 @@ public class Tests : PageTest
 
     }
 
-    // public async Task NavigateToSite()
-    // {
-    //     var baseurl = TestContext.Parameters["BaseUrl"];
-    //     await Page.GotoAsync(baseurl);
-    // }
 }

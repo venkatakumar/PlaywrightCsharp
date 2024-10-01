@@ -7,7 +7,7 @@ namespace PlaywrightTests.TestData
 {
     public class SampleTestData
     {
-        public const string Authority = "Ards and North Down Borough Council";
-        public const string SearchTerm = "BT14";
+        public const string Authority = "Belfast City Council";
+        public const string SearchTerm = "bt1";
     }
 }

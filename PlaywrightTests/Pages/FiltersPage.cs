@@ -11,7 +11,6 @@ namespace PlaywrightTests.Pages
         private readonly IPage _page;
         public FiltersPage(IPage page) => _page = page;
         private ILocator AuthorityFilter => _page.Locator("//button[@name='authority-button']");
-        //private IList<ILocator> Authorities => (IList<ILocator>)_page.Locator(".tqc-checkbox__label");
         private Task<IReadOnlyList<ILocator>> Authorities => _page.Locator(".tqc-checkbox__label").AllAsync();
 
 
@@ -19,7 +18,7 @@ namespace PlaywrightTests.Pages
         {
             await AuthorityFilter.ClickAsync();
             var authorities = await Authorities;
-            foreach(var element in authorities)
+            foreach (var element in authorities)
             {
                 var authority = await element.InnerTextAsync();
                 if (authority.ToLower() == SelectAuthority.ToLower())

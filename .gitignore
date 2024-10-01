@@ -65,3 +65,8 @@ PlaywrightTests/obj/Debug/net8.0/PlaywrightTests.pdb
 PlaywrightTests/obj/Debug/net8.0/PlaywrightTests.sourcelink.json
 PlaywrightTests/obj/Debug/net8.0/ref/PlaywrightTests.dll
 PlaywrightTests/obj/Debug/net8.0/refint/PlaywrightTests.dll
+PlaywrightDemo1=1/obj/PlaywrightDemo1=1.csproj.nuget.dgspec.json
+PlaywrightDemo1=1/obj/PlaywrightDemo1=1.csproj.nuget.g.props
+PlaywrightDemo1=1/obj/PlaywrightDemo1=1.csproj.nuget.g.targets
+PlaywrightDemo1=1/obj/project.assets.json
+PlaywrightDemo1=1/obj/project.nuget.cache

@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Playwright.NUnit;
 using PlaywrightTests.Helpers;
 using PlaywrightTests.Pages;
+using PlaywrightTests.TestData;
 
 
 namespace PlaywrightTests;
@@ -9,13 +10,15 @@ namespace PlaywrightTests;
 public class Tests : PageTest
 {
 
-    [TestCase("bt14")]
-    public async Task SimpleSearchTest(string searchTerm)
+    [Test]
+    public async Task SimpleSearchTest()
     {
         var baseHelper = new BaseHelper(Page);
         await baseHelper.NavigateToUrl();
 
         await Expect(Page).ToHaveTitleAsync(new Regex("Northern Ireland Public Register"));
+
+        var searchTerm = SampleTestData.SearchTerm;
 
         await Page.Locator("[aria-label='Enter your search']").FillAsync(searchTerm);
         await Page.Locator("[aria-label='Search']").ClickAsync();
@@ -35,7 +38,8 @@ public class Tests : PageTest
             }
         }
         var filters = new FiltersPage(Page);
-        await filters.SelectAuthority("");
+        await filters.SelectAuthority(SampleTestData.Authority);
+
         Assert.IsTrue(found, $"Search term '{searchTerm}' not found in any element.");
     }
 

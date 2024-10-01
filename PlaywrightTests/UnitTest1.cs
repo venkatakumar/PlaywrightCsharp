@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using PlaywrightTests.Helpers;
 using PlaywrightTests.Pages;
@@ -39,6 +40,9 @@ public class Tests : PageTest
         }
         var filters = new FiltersPage(Page);
         await filters.SelectAuthority(SampleTestData.Authority);
+
+        var selectedAuthority = await filters.IsSelectedAuthorityDisplayed();
+        Assert.That(selectedAuthority, Is.EqualTo(SampleTestData.Authority), "The selected authority was not displayed correctly.");
 
         Assert.IsTrue(found, $"Search term '{searchTerm}' not found in any element.");
     }

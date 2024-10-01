@@ -2,13 +2,14 @@
 <!-- File name extension must be .runsettings -->
 <RunSettings>
     <TestRunParameters>
-        <Parameter name="BaseUrl" value = "https://planningregister.planningsystemni.gov.uk/simple-search"/>
+        <Parameter name="BaseUrl"
+            value="https://planningregister.planningsystemni.gov.uk/simple-search" />
     </TestRunParameters>
-<PlayWright>
-<BrowserName>Chromium</BrowserName>
-<LaunchOptions>
-    <Headless>false</Headless>
-    <SlowMo>500</SlowMo>
-</LaunchOptions>
-</PlayWright>
+    <PlayWright>
+        <BrowserName>Chromium</BrowserName>
+        <LaunchOptions>
+            <Headless>false</Headless>
+            <SlowMo>5000</SlowMo>
+        </LaunchOptions>
+    </PlayWright>
 </RunSettings> 

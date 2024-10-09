@@ -20,6 +20,8 @@ rad.json
 *.flf
 #Test results file
 TestResults.xml
+PlaywrightTests/bin/
+PlaywrightTests/obj/
 PlaywrightTests/obj/Debug/net8.0/refint/PlaywrightTests.dll
 PlaywrightTests/obj/Debug/net8.0/PlaywrightTests.sourcelink.json
 PlaywrightTests/obj/Debug/net8.0/PlaywrightTests.pdb

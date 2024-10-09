@@ -5,7 +5,6 @@ using PlaywrightTests.Helpers;
 using PlaywrightTests.Pages;
 using PlaywrightTests.TestData;
 
-
 namespace PlaywrightTests;
 
 public class Tests : PageTest

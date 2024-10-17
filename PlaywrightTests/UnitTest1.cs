@@ -52,6 +52,9 @@ public class Tests : PageTest
         var baseHelper = new BaseHelper(Page);
         await baseHelper.NavigateToUrl();
 
+        var search = new FiltersPage(Page);
+        await search.ClickOnSearchOption("Advanced search");
+
         var searchTerm = SampleTestData.AdvancedSearch_RefNumer;
 
         var advancedSearch = new AdvancedSearch(Page);

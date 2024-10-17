@@ -8,12 +8,9 @@ namespace PlaywrightTests.Pages
         public AdvancedSearch(IPage page) => _page = page;
         private ILocator ReferenceNumber => _page.GetByLabel("Reference number-input");
         private ILocator SearchButton => _page.GetByRole(AriaRole.Button, new() { Name = "Search", Exact = true });
-        private ILocator AdvancedSearchLink => _page.Locator("text='Advanced search'");
-
 
         public async Task AdvancedSearchByRefNumber(string searchTerm)
         {
-            await AdvancedSearchLink.ClickAsync();
             await ReferenceNumber.ClickAsync();
             await ReferenceNumber.FillAsync(searchTerm);
             await SearchButton.ClickAsync();

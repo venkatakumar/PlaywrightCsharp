@@ -10,7 +10,7 @@ namespace PlaywrightTests.Pages
         private ILocator CloseAuthorityDropdown => _page.Locator("GetByRole(AriaRole.Button, new() { Name = 'selected'})");
         private Task<IReadOnlyList<ILocator>> Authorities => _page.Locator(".tqc-checkbox__label").AllAsync();
         private ILocator SelectedAuthority => _page.Locator("//div[@class='SelectedTagsstyles__StyledSelectedTags-sc-1r3te2y-0 cYYHej']");
-        private ILocator SearchElements => _page.Locator("//div[@class='filter-panel expanded css-pjcyw6']/div[1]/div/a");
+        private Task<IReadOnlyList<ILocator>> SearchOptions => _page.Locator(".LinkBoxstyles__StyledLinkBox-edffol-0 a").AllAsync();
 
 
 
@@ -36,10 +36,10 @@ namespace PlaywrightTests.Pages
             return await SelectedAuthority.InnerTextAsync();
         }
 
-        public async Task ClickOnFilterOption(string textToClick)
+        public async Task ClickOnSearchOption(string textToClick)
         {
             // Get all matching elements
-            var elements = await SearchElements.ElementHandlesAsync();
+            var elements = await SearchOptions;
 
             foreach (var element in elements)
             {

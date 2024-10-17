@@ -56,7 +56,7 @@ public class Tests : PageTest
 
         var advancedSearch = new AdvancedSearch(Page);
         await advancedSearch.AdvancedSearchByRefNumber(searchTerm);
-        await Page.WaitForTimeoutAsync(1000);
+        await Page.WaitForTimeoutAsync(500);
         await advancedSearch.VerifyElementContainsText(searchTerm);
     }
 

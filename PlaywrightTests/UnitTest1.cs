@@ -1,5 +1,5 @@
 using System.Text.RegularExpressions;
-using Microsoft.Playwright;
+using NUnit.Framework;
 using Microsoft.Playwright.NUnit;
 using PlaywrightTests.Helpers;
 using PlaywrightTests.Pages;
@@ -44,6 +44,20 @@ public class Tests : PageTest
         Assert.That(selectedAuthority, Is.EqualTo(SampleTestData.Authority), "The selected authority was not displayed correctly.");
 
         Assert.IsTrue(found, $"Search term '{searchTerm}' not found in any element.");
+    }
+
+    [Test]
+    public async Task AdvancedSearch()
+    {
+        var baseHelper = new BaseHelper(Page);
+        await baseHelper.NavigateToUrl();
+
+        var searchTerm = SampleTestData.AdvancedSearch_RefNumer;
+
+        var advancedSearch = new AdvancedSearch(Page);
+        await advancedSearch.AdvancedSearchByRefNumber(searchTerm);
+        await Page.WaitForTimeoutAsync(500);
+        await advancedSearch.VerifyElementContainsText(searchTerm);
     }
 
 }

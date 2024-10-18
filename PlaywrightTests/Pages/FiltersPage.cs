@@ -11,7 +11,8 @@ namespace PlaywrightTests.Pages
         private Task<IReadOnlyList<ILocator>> Authorities => _page.Locator(".tqc-checkbox__label").AllAsync();
         private ILocator SelectedAuthority => _page.Locator("//div[@class='SelectedTagsstyles__StyledSelectedTags-sc-1r3te2y-0 cYYHej']");
         private Task<IReadOnlyList<ILocator>> SearchOptions => _page.Locator(".LinkBoxstyles__StyledLinkBox-edffol-0 a").AllAsync();
-
+        private ILocator SimpleSearchBar => _page.Locator("[aria-label='Enter your search']");
+        private ILocator SearchButton => _page.Locator("[aria-label='Search']");
 
 
         public async Task SelectAuthority(string SelectAuthority)
@@ -54,6 +55,36 @@ namespace PlaywrightTests.Pages
                     break; // Exit loop after clicking
                 }
             }
+        }
+
+        public async Task SearchByPostcode(string searchBy)
+        {
+            await SimpleSearchBar.FillAsync(searchBy);
+            await SearchButton.ClickAsync();
+        }
+
+        public async Task<List<string>> GetElementsContainingText(string expectedText)
+        {
+            var elements = await _page.Locator("p.tqc-text.css-lqlkw3").AllAsync();
+            var matchingTexts = new List<string>();
+
+            foreach (var element in elements)
+            {
+                // Check if the element is visible
+                if (await element.IsVisibleAsync())
+                {
+                    // Get the inner text of the element
+                    var text = await element.InnerTextAsync();
+
+                    // Verify if the text contains the expected substring (case-insensitive)
+                    if (text.ToLower().Contains(expectedText.ToLower()))
+                    {
+                        matchingTexts.Add(text);
+                        Console.WriteLine($"Found element with text containing '{expectedText}': {text}");
+                    }
+                }
+            }
+            return matchingTexts;
         }
     }
 }

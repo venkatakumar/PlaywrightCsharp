@@ -5,6 +5,7 @@ using PlaywrightTests.Helpers;
 using PlaywrightTests.Pages;
 using PlaywrightTests.TestData;
 using FluentAssertions;
+using Microsoft.Playwright;
 
 namespace PlaywrightTests;
 
@@ -21,30 +22,21 @@ public class Tests : PageTest
 
         var searchTerm = SampleTestData.SearchTerm;
 
-        await Page.Locator("[aria-label='Enter your search']").FillAsync(searchTerm);
-        await Page.Locator("[aria-label='Search']").ClickAsync();
+        var simpleSearch = new FiltersPage(Page);
+        await simpleSearch.SearchByPostcode(searchTerm);
         await Expect(Page.Locator("[data-testid='search-results-message']")).ToBeVisibleAsync();
 
-        var elements = await Page.Locator("p.tqc-text.css-lqlkw3").ElementHandlesAsync();
+        //var filters = new FiltersPage(Page);
+        await simpleSearch.SelectAuthority(SampleTestData.Authority);
 
-        bool found = false;
-        foreach (var element in elements)
-        {
-            var text = await element.InnerTextAsync();
-
-            if (text.ToLower().Contains(searchTerm))
-            {
-                found = true;
-                Console.WriteLine("Found element with text 'bt1'");
-            }
-        }
-        var filters = new FiltersPage(Page);
-        await filters.SelectAuthority(SampleTestData.Authority);
-
-        var selectedAuthority = await filters.IsSelectedAuthorityDisplayed();
+        var selectedAuthority = await simpleSearch.IsSelectedAuthorityDisplayed();
         Assert.That(selectedAuthority, Is.EqualTo(SampleTestData.Authority), "The selected authority was not displayed correctly.");
+        await Page.WaitForTimeoutAsync(500);
+        //await Page.WaitForSelectorAsync("//div[@class='results css-0']", new() { State = WaitForSelectorState.Attached });
 
-        Assert.IsTrue(found, $"Search term '{searchTerm}' not found in any element.");
+        var expectedElements = await simpleSearch.GetElementsContainingText(searchTerm);
+        expectedElements.Any(a => a.ToLower().Contains(searchTerm.ToLower())).Should()
+        .BeTrue($"Expected at least one element to contain the text '{searchTerm}' (case-insensitive), but none were found.");
     }
 
     [Test]
@@ -66,7 +58,6 @@ public class Tests : PageTest
         var matchingElements = await advancedSearch.GetElementsContainingText(searchTerm);
         await Page.WaitForTimeoutAsync(200);
         // Assert to ensure at least one element contains the expected text.
-        //Assert.IsTrue(matchingElements.Count > 0, $"No visible elements contain the text '{searchTerm}'.");
         matchingElements.Any(e => e.ToLower().Contains(searchTerm.ToLower())).Should()
         .BeTrue($"Expected at least one element to contain the text '{searchTerm}' (case-insensitive), but none were found.");
         ;

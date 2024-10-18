@@ -16,13 +16,13 @@ namespace PlaywrightTests.Pages
             await SearchButton.ClickAsync();
         }
 
-        public async Task VerifyElementContainsText(string expectedText)
+        public async Task<List<string>> GetElementsContainingText(string expectedText)
         {
             // Locate all elements that match the specified class.
             var elements = await _page.Locator("p.tqc-text.css-102diyt").AllAsync();
+            var matchingTexts = new List<string>();
 
             // Iterate through each element and check if it contains the expected text.
-            bool isTextFound = false;
             foreach (var element in elements)
             {
                 // Check if the element is visible
@@ -34,15 +34,12 @@ namespace PlaywrightTests.Pages
                     // Verify if the text contains the expected substring (case-insensitive)
                     if (text.ToLower().Contains(expectedText.ToLower()))
                     {
-                        isTextFound = true;
+                        matchingTexts.Add(text);
                         Console.WriteLine($"Found element with text containing '{expectedText}': {text}");
                     }
                 }
             }
-
-            // Assert to ensure at least one element contains the expected text.
-            Assert.IsTrue(isTextFound, $"No visible elements contain the text '{expectedText}'.");
+            return matchingTexts;
         }
-
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Playwright.NUnit;
 using PlaywrightTests.Helpers;
 using PlaywrightTests.Pages;
 using PlaywrightTests.TestData;
+using FluentAssertions;
 
 namespace PlaywrightTests;
 
@@ -59,8 +60,15 @@ public class Tests : PageTest
 
         var advancedSearch = new AdvancedSearch(Page);
         await advancedSearch.AdvancedSearchByRefNumber(searchTerm);
-        await Page.WaitForTimeoutAsync(500);
-        await advancedSearch.VerifyElementContainsText(searchTerm);
-    }
+        await Page.WaitForTimeoutAsync(1000);
 
+        // Get the matching elements
+        var matchingElements = await advancedSearch.GetElementsContainingText(searchTerm);
+        await Page.WaitForTimeoutAsync(200);
+        // Assert to ensure at least one element contains the expected text.
+        //Assert.IsTrue(matchingElements.Count > 0, $"No visible elements contain the text '{searchTerm}'.");
+        matchingElements.Any(e => e.ToLower().Contains(searchTerm.ToLower())).Should()
+        .BeTrue($"Expected at least one element to contain the text '{searchTerm}' (case-insensitive), but none were found.");
+        ;
+    }
 }
